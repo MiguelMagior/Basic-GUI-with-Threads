@@ -1,4 +1,4 @@
-package br.com.basicgui.ui.dialogs;
+package main.java.br.com.basicgui.ui.dialogs;
 
 import javax.swing.*;
 import javax.swing.border.Border;

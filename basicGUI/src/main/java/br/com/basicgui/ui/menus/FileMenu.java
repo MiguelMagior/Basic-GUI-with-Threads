@@ -1,6 +1,6 @@
-package br.com.basicgui.ui.menus;
+package main.java.br.com.basicgui.ui.menus;
 
-import br.com.basicgui.ui.MainFrame;
+import main.java.br.com.basicgui.ui.MainFrame;
 
 import javax.swing.*;
 

@@ -1,9 +1,9 @@
-package br.com.basicgui.ui;
+package main.java.br.com.basicgui.ui;
 
-import br.com.basicgui.ui.menus.FileMenu;
-import br.com.basicgui.ui.menus.ConfigMenu;
-import br.com.basicgui.ui.menus.HelpMenu;
-import br.com.basicgui.utils.FileUtils;
+import main.java.br.com.basicgui.ui.menus.FileMenu;
+import main.java.br.com.basicgui.ui.menus.ConfigMenu;
+import main.java.br.com.basicgui.ui.menus.HelpMenu;
+import main.java.br.com.basicgui.utils.FileUtils;
 
 import javax.swing.*;
 import java.io.File;
