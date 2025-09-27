@@ -1,27 +1,128 @@
 package main.java.br.com.basicgui.ui;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
-public class AnimatedBackgroundPanel extends JPanel{
-    @Override
-    protected void paintComponent(Graphics g){
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g.create();
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-        //Temporary
-        GradientPaint gp = new GradientPaint(0, 0, new Color(173, 216, 230, 180), 0, getHeight(), new Color(135, 206, 250, 120));
-        g2d.setPaint(gp);
-        g2d.fillRect(0, 0, getWidth(), getHeight());
+import main.java.br.com.basicgui.utils.GradientFactory;
+import main.java.br.com.basicgui.utils.GradientFactory.GradientType;
 
-        g2d.dispose();
-    }
+public class AnimatedBackgroundPanel extends JPanel {
+	private Color color1 = Color.BLACK;
+	private Color color2 = Color.WHITE;
+	private float animationProgress = 0f;
+	private float animationSpeed = 0.01f;
+	private boolean running = false;
+	private Thread animationThread;
+	private GradientType gradientType = GradientType.DIAGONAL_LINEAR;
 
-    public void startAnimation(){
-        //TO DO: implement animation thread
-    }
+	public AnimatedBackgroundPanel() {}
 
-    public void stopAnimation(){
-        //TO DO: implement animation thread stop
-    }
+	public AnimatedBackgroundPanel(Color color1, Color color2) {
+		this.color1 = color1;
+		this.color2 = color2;
+	}
+
+	@Override
+	protected void paintComponent(Graphics graphic) {
+	    super.paintComponent(graphic);
+	    
+	    Graphics2D graphic2d = (Graphics2D) graphic;
+	    
+	    Color currentColor1 = interpolateColor(color1, color2, animationProgress);
+	    Color currentColor2 = interpolateColor(color2, color1, animationProgress);
+	    
+	    Point2D center = new Point2D.Float(getWidth() / 2f, getHeight() / 2f);
+	    float radius = Math.max(getWidth(), getHeight());
+	    
+	    Paint gradient = null;
+	    
+	    switch(gradientType) {
+	    case DIAGONAL_LINEAR:
+	    	gradient = GradientFactory.createVerticalLinear(getWidth(), currentColor1, currentColor2);
+	    	break;
+		default:
+			gradient = GradientFactory.createDiagonalLinear(getWidth(), getHeight(), currentColor1, currentColor2);
+	    }
+	    
+	    graphic2d .setPaint(gradient);
+	    graphic2d .fillRect(0, 0, getWidth(), getHeight()); 
+	}
+
+	public void startAnimation() {
+		if (running) return;
+
+		running = true;
+		animationThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (running) {
+					animationProgress += animationSpeed;
+					if (animationProgress > 1f || animationProgress < 0) {
+						animationSpeed *= -1;
+					}
+
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							repaint();
+						}
+					});
+
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						break;
+					}
+				}
+			}
+		});
+
+		animationThread.start();
+	}
+
+	public void stopAnimation() {
+		running = false;
+		if (animationThread != null) {
+			animationThread.interrupt();
+			try {
+				animationThread.join(1000);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+			animationThread = null;
+		}
+	}
+
+	private Color interpolateColor(Color start, Color end, float progress) {
+		int red = (int) (start.getRed() + (end.getRed() - start.getRed()) * progress);
+		int green = (int) (start.getGreen() + (end.getGreen() - start.getGreen()) * progress);
+		int blue = (int) (start.getBlue() + (end.getBlue() - start.getBlue()) * progress);
+
+		red = Math.max(0, Math.min(255, red));
+		green = Math.max(0, Math.min(255, green));
+		blue = Math.max(0, Math.min(255, blue));
+
+		return new Color(red, green, blue);
+	}
+
+	public void setColors(Color color1, Color color2) {
+		this.color1 = color1;
+		this.color2 = color2;
+		repaint();
+	}
+
+	public void setAnimationSpeed(float animationSpeed) {
+		this.animationSpeed = animationSpeed;
+	}
+
+	public void setGradientType(GradientType gradientType) {
+		this.gradientType = gradientType;
+	}
+	
+	
+
 }

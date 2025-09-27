@@ -4,7 +4,6 @@ import main.java.br.com.basicgui.ui.menus.FileMenu;
 import main.java.br.com.basicgui.ui.menus.ConfigMenu;
 import main.java.br.com.basicgui.ui.menus.HelpMenu;
 import main.java.br.com.basicgui.utils.FileUtils;
-
 import javax.swing.*;
 import java.io.File;
 import java.awt.*;
@@ -22,8 +21,10 @@ public class MainFrame extends JFrame{
 
         //Central panel
         AnimatedBackgroundPanel backgroundPanel = new AnimatedBackgroundPanel();
-        backgroundPanel.setLayout(new BorderLayout());
-
+        backgroundPanel.startAnimation();
+        //backgroundPanel.setLayout(new BorderLayout());
+  
+        
         textArea = new JTextArea();
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
