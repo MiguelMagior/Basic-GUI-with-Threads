@@ -1,6 +1,7 @@
 package main.java.br.com.basicgui.ui;
 
 import main.java.br.com.basicgui.ui.menus.FileMenu;
+import main.java.br.com.basicgui.ui.menus.ConfigChangeListener;
 import main.java.br.com.basicgui.ui.menus.ConfigMenu;
 import main.java.br.com.basicgui.ui.menus.HelpMenu;
 import main.java.br.com.basicgui.utils.FileUtils;
@@ -9,9 +10,11 @@ import java.io.File;
 import java.awt.*;
 import java.util.List;
 
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame implements ConfigChangeListener{
     private JTextArea textArea;
     private StatusBar statusBar;
+    private ConfigMenu configMenu;
+    private AnimatedBackgroundPanel backgroundPanel; 
 
     public MainFrame(){
         setTitle("Project 2025 - Basic GUI with Threads");
@@ -20,8 +23,7 @@ public class MainFrame extends JFrame{
         setLocationRelativeTo(null);
 
         //Central panel
-        AnimatedBackgroundPanel backgroundPanel = new AnimatedBackgroundPanel();
-        backgroundPanel.startAnimation();
+        backgroundPanel= new AnimatedBackgroundPanel();
         //backgroundPanel.setLayout(new BorderLayout());
   
         
@@ -35,13 +37,18 @@ public class MainFrame extends JFrame{
         //Status bar config
         statusBar = new StatusBar();
         add(statusBar, BorderLayout.SOUTH);
-
+        
+        configMenu = new ConfigMenu(this);
+        configMenu.addConfigChangeListener(this);
+        
         //Menu bar
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(new FileMenu(this));
-        menuBar.add(new ConfigMenu(this));
+        menuBar.add(configMenu);
         menuBar.add(new HelpMenu(this));
         setJMenuBar(menuBar);
+        
+        
     }
 
     //Updates JTextArea content
@@ -95,5 +102,18 @@ public class MainFrame extends JFrame{
             File file = fileChooser.getSelectedFile();
             loadFileWithProgress(file);
         }
+    }
+    
+    @Override
+    public void onConfigChanged() {
+    	if(!backgroundPanel.isRunning()) {
+    		backgroundPanel.startAnimation();
+    		backgroundPanel.setRunning(true);
+    	}
+        backgroundPanel.setColors(configMenu.getColor1(), configMenu.getColor2());
+        backgroundPanel.setAnimationSpeed(configMenu.getSpeed());
+        backgroundPanel.setGradientType(configMenu.getGradientType());
+        
+        backgroundPanel.repaint();
     }
 }

@@ -34,21 +34,31 @@ public class AnimatedBackgroundPanel extends JPanel {
 	    Color currentColor1 = interpolateColor(color1, color2, animationProgress);
 	    Color currentColor2 = interpolateColor(color2, color1, animationProgress);
 	    
-	    Point2D center = new Point2D.Float(getWidth() / 2f, getHeight() / 2f);
-	    float radius = Math.max(getWidth(), getHeight());
-	    
+	    int width = getWidth();
+	    int height = getHeight();
 	    Paint gradient = null;
 	    
 	    switch(gradientType) {
 	    case DIAGONAL_LINEAR:
-	    	gradient = GradientFactory.createVerticalLinear(getWidth(), currentColor1, currentColor2);
+	    	gradient = GradientFactory.createDiagonalLinear(width, height, currentColor1, currentColor2);
+	    	break;
+	    case BASIC_RADIAL:
+	    	Point2D center = new Point2D.Float(getWidth() / 2f, getHeight() / 2f);
+		    float radius = Math.max(getWidth(), getHeight());
+		    
+	    	gradient = GradientFactory.createRadial(center, radius, currentColor1, currentColor2);
+	    	break;
+	    case VERTICAL_LINEAR:
+	    	gradient = GradientFactory.createVerticalLinear(width, currentColor1, currentColor2);
 	    	break;
 		default:
-			gradient = GradientFactory.createDiagonalLinear(getWidth(), getHeight(), currentColor1, currentColor2);
+			gradient = GradientFactory.createDiagonalLinear(width, height, currentColor1, currentColor2);
 	    }
 	    
-	    graphic2d .setPaint(gradient);
-	    graphic2d .fillRect(0, 0, getWidth(), getHeight()); 
+	    if(running) {
+	    	graphic2d .setPaint(gradient);
+		    graphic2d .fillRect(0, 0, getWidth(), getHeight()); 
+	    }
 	}
 
 	public void startAnimation() {
@@ -121,6 +131,14 @@ public class AnimatedBackgroundPanel extends JPanel {
 
 	public void setGradientType(GradientType gradientType) {
 		this.gradientType = gradientType;
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
 	}
 	
 	

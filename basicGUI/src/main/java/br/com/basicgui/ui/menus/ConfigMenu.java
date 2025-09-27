@@ -1,34 +1,56 @@
 package main.java.br.com.basicgui.ui.menus;
 
 import main.java.br.com.basicgui.ui.MainFrame;
+import main.java.br.com.basicgui.utils.GradientFactory.GradientType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ConfigMenu extends JMenu{
-
     private float speed = 1.0f;
-    private Color color1 = Color.BLUE;
-    private Color color2 = Color.CYAN;
-    private boolean cyclicPattern = false;
+    private Color color1 = Color.BLACK;
+    private Color color2 = Color.WHITE;
+    private GradientType gradientType;
+    private ArrayList<ConfigChangeListener> listeners = new ArrayList<>();
 
     public ConfigMenu(MainFrame frame){
         super("Settings");
 
-        //Patterns
+      //Patterns
         JMenuItem patternItem = new JMenuItem("Pattern");
         patternItem.addActionListener(e -> {
-            JCheckBox checkBox = new JCheckBox("Enable Cyclic Pattern", cyclicPattern);
+            JPanel panel = new JPanel(new GridLayout(4, 1));
+            ButtonGroup group = new ButtonGroup();
+            
+            JRadioButton diagonalLinear = new JRadioButton("Diagonal Linear", gradientType == GradientType.DIAGONAL_LINEAR);
+            JRadioButton basicRadial = new JRadioButton("Basic Radial", gradientType == GradientType.BASIC_RADIAL);
+            JRadioButton verticalLinear = new JRadioButton("Vertical Linear", gradientType == GradientType.VERTICAL_LINEAR);
+            
+            group.add(diagonalLinear);
+            group.add(basicRadial);
+            group.add(verticalLinear);
+
+            panel.add(diagonalLinear);
+            panel.add(basicRadial);
+            panel.add(verticalLinear);
+
+            
             int option = JOptionPane.showConfirmDialog(
                     frame,
-                    checkBox,
-                    "Pattern Settings",
+                    panel,
+                    "Gradient Pattern",
                     JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.PLAIN_MESSAGE
             );
+            
             if (option == JOptionPane.OK_OPTION) {
-                cyclicPattern = checkBox.isSelected();
-                JOptionPane.showMessageDialog(frame, "Cyclic Pattern set to: " + cyclicPattern);
+                if (diagonalLinear.isSelected()) gradientType = GradientType.DIAGONAL_LINEAR;
+                else if (basicRadial.isSelected()) gradientType = GradientType.BASIC_RADIAL;
+                else if (verticalLinear.isSelected()) gradientType = GradientType.VERTICAL_LINEAR;
+                
+                notifyConfigChanged(); 
+                JOptionPane.showMessageDialog(frame, "Gradient pattern set to: " + gradientType);
             }
         });
 
@@ -72,6 +94,7 @@ public class ConfigMenu extends JMenu{
                     JOptionPane.PLAIN_MESSAGE
             );
             if (option == JOptionPane.OK_OPTION) {
+            	notifyConfigChanged(); 
                 JOptionPane.showMessageDialog(frame,
                         "Colors set!\nFirst: " + color1 + "\nSecond: " + color2);
             }
@@ -99,6 +122,7 @@ public class ConfigMenu extends JMenu{
 
             if (option == JOptionPane.OK_OPTION) {
                 speed = slider.getValue() / 100f;
+                notifyConfigChanged(); 
                 JOptionPane.showMessageDialog(frame, "Speed set to: " + speed + "x");
             }
         });
@@ -107,10 +131,20 @@ public class ConfigMenu extends JMenu{
         add(colorsItem);
         add(speedItem);
     }
+    
+    public void addConfigChangeListener(ConfigChangeListener listener) {
+        listeners.add(listener);
+    }
+    
+    private void notifyConfigChanged() {
+        for (ConfigChangeListener listener : listeners) {
+            listener.onConfigChanged();
+        }
+    }
 
     // Getters para serem usados no backGround
     public float getSpeed() {
-        return speed;
+        return speed/100;
     }
 
     public Color getColor1() {
@@ -120,8 +154,8 @@ public class ConfigMenu extends JMenu{
     public Color getColor2() {
         return color2;
     }
-
-    public boolean isCyclicPattern() {
-        return cyclicPattern;
+    
+    public GradientType getGradientType() {
+        return gradientType;
     }
 }
