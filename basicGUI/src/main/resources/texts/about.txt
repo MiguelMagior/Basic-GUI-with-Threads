@@ -1,1 +1,7 @@
-Test of about
+Program Name: Basic Program with GUI using Threads
+Version: 1.0.1
+Authors: Daniel Rodrigo Vicente de Oliveira Lima, Darlan Peres Maia, Ellen Carol Valença Rodrigues, Luiz Otávio Xavier Dos Santos, Miguel Augusto Magior, Thiago Gonçalves Dos Santos
+Copyright: © 2025. All rights reserved.
+Description: A simple GUI application demonstrating the use of multithreading. Useful for educational and testing purposes.
+Development completed in September 2025
+Contact: d175259@dac.unicamp.br (Daniel)
