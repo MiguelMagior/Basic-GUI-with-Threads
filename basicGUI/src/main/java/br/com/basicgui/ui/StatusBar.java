@@ -1,4 +1,4 @@
-package main.java.br.com.basicgui.ui;
+package br.com.basicgui.ui;
 
 import javax.swing.*;
 import java.awt.*;

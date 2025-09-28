@@ -1,8 +1,8 @@
-package main.java.br.com.basicgui.ui.menus;
+package br.com.basicgui.ui.menus;
 
-import main.java.br.com.basicgui.ui.MainFrame;
-import main.java.br.com.basicgui.ui.dialogs.AboutDialog;
-import main.java.br.com.basicgui.ui.dialogs.HelpDialog;
+import br.com.basicgui.ui.MainFrame;
+import br.com.basicgui.ui.dialogs.AboutDialog;
+import br.com.basicgui.ui.dialogs.HelpDialog;
 
 import javax.swing.*;
 

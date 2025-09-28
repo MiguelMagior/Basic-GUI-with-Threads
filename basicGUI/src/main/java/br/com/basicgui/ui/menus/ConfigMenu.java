@@ -1,7 +1,7 @@
-package main.java.br.com.basicgui.ui.menus;
+package br.com.basicgui.ui.menus;
 
-import main.java.br.com.basicgui.ui.MainFrame;
-import main.java.br.com.basicgui.utils.GradientFactory.GradientType;
+import br.com.basicgui.ui.MainFrame;
+import br.com.basicgui.utils.GradientFactory.GradientType;
 
 import javax.swing.*;
 import java.awt.*;

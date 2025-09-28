@@ -1,1 +1,39 @@
-Test of help
+Project 2025 - Basic GUI with Threads
+
+Welcome to Project 2025! This application is a simple text file viewer featuring a dynamic, animated background. It demonstrates key concepts in Java Swing, including multithreading for file I/O (using SwingWorker) and custom component drawing (using a dedicated animation thread).
+
+1. File Menu Operations
+
+The "File" menu provides basic file operations:
+
+Open file: Opens a standard file chooser dialog. Select a plain text file (.txt, .log, etc.) to load its contents into the main text area. A loading message and indeterminate progress bar will appear in the status bar during the load process, performed safely in a background thread.
+Close file: Clears the content of the main text area and resets the status bar message.
+Exit: Closes the application.
+
+2. Status Bar
+
+Located at the bottom of the window, the Status Bar displays the current state of the application:
+Ready: The default state.
+Loading file...: Displayed while a file is being read.
+File loaded/File closed: Confirmation messages.
+Progress Bar: An indeterminate progress bar is shown during file loading operations.
+
+3. Settings Menu (Animated Background Configuration)
+
+The "Settings" menu allows you to customize the animated gradient background:
+
+Pattern: Choose the type of gradient to be drawn:
+    Diagonal Linear
+    Basic Radial
+    Vertical Linear
+Colors: Opens a color chooser for you to select **two colors** (First Color and Second Color). The animation will interpolate and cycle between these two colors.
+Speed: Adjusts the speed of the color animation, from 0.5x (slower) to 2.0x (faster).
+
+Note: Changes made in the "Settings" menu are applied instantly to the animated background. If the animation is not running, it will automatically start when a setting is changed.
+
+4. Help Menu
+
+Help: Opens this current window.
+About: Shows general information about the project and its logo.
+
+(See more in images)

@@ -1,4 +1,4 @@
-package main.java.br.com.basicgui.utils;
+package br.com.basicgui.utils;
 
 import java.io.*;
 import java.util.ArrayList;

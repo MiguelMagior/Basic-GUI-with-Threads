@@ -1,7 +1,7 @@
-package main.java.br.com.basicgui.app;
+package br.com.basicgui.app;
 
 import javax.swing.SwingUtilities;
-import main.java.br.com.basicgui.ui.MainFrame;
+import br.com.basicgui.ui.MainFrame;
 
 public class Main {
     public static void main(String[] args) {

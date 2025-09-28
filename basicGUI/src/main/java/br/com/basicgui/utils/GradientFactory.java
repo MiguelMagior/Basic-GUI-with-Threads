@@ -1,4 +1,4 @@
-package main.java.br.com.basicgui.utils;
+package br.com.basicgui.utils;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

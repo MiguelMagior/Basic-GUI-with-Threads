@@ -1,4 +1,4 @@
-package main.java.br.com.basicgui.ui;
+package br.com.basicgui.ui;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import main.java.br.com.basicgui.utils.GradientFactory;
-import main.java.br.com.basicgui.utils.GradientFactory.GradientType;
+import br.com.basicgui.utils.GradientFactory;
+import br.com.basicgui.utils.GradientFactory.GradientType;
 
 public class AnimatedBackgroundPanel extends JPanel {
 	private Color color1 = Color.BLACK;
